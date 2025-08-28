@@ -1,0 +1,277 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { 
+  Sun, 
+  Moon, 
+  Mosque, 
+  Quran, 
+  PrayerTimes, 
+  Compass, 
+  Calendar, 
+  BookOpen, 
+  MessageCircle, 
+  ChevronRight,
+  Clock,
+  MapPin,
+  BookMarked,
+  Sparkles
+} from 'lucide-react';
+
+const features = [
+  {
+    icon: <PrayerTimes className="w-6 h-6" />,
+    title: 'Prayer Times',
+    description: 'Accurate prayer times based on your location',
+    href: '/prayer-times',
+    color: 'text-blue-500',
+    bg: 'bg-blue-50 dark:bg-blue-900/30'
+  },
+  {
+    icon: <Quran className="w-6 h-6" />,
+    title: 'Quran',
+    description: 'Read and listen to the Holy Quran',
+    href: '/quran',
+    color: 'text-green-500',
+    bg: 'bg-green-50 dark:bg-green-900/30'
+  },
+  {
+    icon: <BookOpen className="w-6 h-6" />,
+    title: 'Adhkar',
+    description: 'Daily remembrances and supplications',
+    href: '/adkar',
+    color: 'text-purple-500',
+    bg: 'bg-purple-50 dark:bg-purple-900/30'
+  },
+  {
+    icon: <Compass className="w-6 h-6" />,
+    title: 'Qibla',
+    description: 'Find the Qibla direction',
+    href: '/qibla',
+    color: 'text-amber-500',
+    bg: 'bg-amber-50 dark:bg-amber-900/30'
+  },
+  {
+    icon: <MapPin className="w-6 h-6" />,
+    title: 'Mosque Finder',
+    description: 'Locate nearby mosques',
+    href: '/mosque-finder',
+    color: 'text-red-500',
+    bg: 'bg-red-50 dark:bg-red-900/30'
+  },
+  {
+    icon: <Calendar className="w-6 h-6" />,
+    title: 'Islamic Calendar',
+    description: 'Hijri dates and important events',
+    href: '/calendar',
+    color: 'text-emerald-500',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/30'
+  },
+];
+
+export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const savedTheme = localStorage.getItem('theme') === 'dark';
+    setIsDark(savedTheme);
+    if (savedTheme) {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', newTheme);
+  };
+
+  if (!isMounted) return null;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+      {/* Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <Link href="/" className="flex items-center space-x-2">
+              <Mosque className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
+                Islamic Companion
+              </span>
+            </Link>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-gray-600" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-16">
+          <motion.h1 
+            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Your Spiritual Journey <span className="text-emerald-600 dark:text-emerald-400">Starts Here</span>
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Access prayer times, Quran, Qibla direction, Islamic calendar, and more in one beautiful, easy-to-use app.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col sm:flex-row justify-center gap-4"
+          >
+            <Link 
+              href="/prayer-times"
+              className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 flex items-center justify-center space-x-2"
+            >
+              <Clock className="w-5 h-5" />
+              <span>Prayer Times</span>
+            </Link>
+            <Link 
+              href="/quran"
+              className="px-8 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center space-x-2"
+            >
+              <BookMarked className="w-5 h-5" />
+              <span>Read Quran</span>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 * index }}
+            >
+              <Link href={feature.href}>
+                <div className={`h-full p-6 rounded-2xl ${feature.bg} border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}>
+                  <div className={`w-12 h-12 ${feature.bg} rounded-lg flex items-center justify-center mb-4`}>
+                    <div className={feature.color}>
+                      {feature.icon}
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    {feature.description}
+                  </p>
+                  <div className="mt-4 text-emerald-600 dark:text-emerald-400 flex items-center text-sm font-medium">
+                    Explore <ChevronRight className="w-4 h-4 ml-1" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Prayer Times Card */}
+        <motion.div 
+          className="bg-gradient-to-r from-emerald-600 to-blue-600 rounded-2xl p-8 text-white mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <Clock className="w-6 h-6" />
+              <h2 className="text-2xl font-bold">Today's Prayer Times</h2>
+            </div>
+            <p className="mb-6 text-emerald-100">
+              Check the prayer times for your location and never miss a prayer again.
+            </p>
+            <Link 
+              href="/prayer-times"
+              className="inline-flex items-center justify-center px-6 py-3 bg-white text-emerald-700 font-medium rounded-lg hover:bg-opacity-90 transition-all duration-300"
+            >
+              View Prayer Times
+              <ChevronRight className="w-4 h-4 ml-2" />
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Daily Dua Section */}
+        <motion.div 
+          className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center space-x-3 mb-6">
+              <Sparkles className="w-6 h-6 text-amber-500" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Daily Dua</h2>
+            </div>
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-xl border-l-4 border-amber-500">
+              <p className="text-2xl text-gray-800 dark:text-amber-100 font-arabic text-right leading-relaxed mb-4">
+                رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ
+              </p>
+              <p className="text-gray-600 dark:text-amber-200 mb-2">
+                "Our Lord, give us in this world [that which is] good and in the Hereafter [that which is] good and protect us from the punishment of the Fire."
+              </p>
+              <p className="text-sm text-gray-500 dark:text-amber-300">
+                - Quran 2:201
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+              <Mosque className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              <span className="text-lg font-semibold text-gray-900 dark:text-white">Islamic Companion</span>
+            </div>
+            <div className="flex space-x-6">
+              <Link href="/about" className="text-gray-600 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 transition-colors">
+                About
+              </Link>
+              <Link href="/privacy" className="text-gray-600 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 transition-colors">
+                Privacy
+              </Link>
+              <Link href="/contact" className="text-gray-600 hover:text-emerald-600 dark:text-gray-300 dark:hover:text-emerald-400 transition-colors">
+                Contact
+              </Link>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-gray-500 dark:text-gray-400 text-sm">
+            <p>© {new Date().getFullYear()} Islamic Companion. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
